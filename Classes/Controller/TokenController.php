@@ -12,6 +12,7 @@ use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
@@ -60,6 +61,11 @@ class TokenController
 
         $url = $this->getUrl($recordId, $token, $authType);
 
+        $redirect = $request->getQueryParams()['redirect'] ?? '';
+        if ($redirect) {
+            return new RedirectResponse($url);
+        }
+
         if ($authType === 'fe' && !$url) {
             $content .= htmlspecialchars($lang->sL('LLL:EXT:login_link/Resources/Private/Language/locallang.xlf:modal.fe.error'));
         } else {
@@ -83,7 +89,8 @@ class TokenController
 
             $targetPage = (int)($tsconfig['tx_loginlink.']['fe.']['loginPage'] ?? 0);
             if (!$targetPage) {
-                return '';
+                // fallback to server url
+                return 'http://'.$_SERVER['HTTP_HOST'].'/?byToken='.$token;
             }
             $url = PreviewUriBuilder::create($targetPage)
                     ->buildUri() . '?byToken=' . $token;

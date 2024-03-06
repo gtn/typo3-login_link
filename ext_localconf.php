@@ -29,3 +29,9 @@ $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1695727924] = 'EXT:logi
     [\GeorgRinger\LoginLink\Controller\PluginController::class => 'showForm,sendMail'],
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1699875973] = [
+    'nodeName' => 'login_link_loginas',
+    'priority' => 40,
+    'class' => \GeorgRinger\LoginLink\TCA\LoginAsFormElement::class,
+];
