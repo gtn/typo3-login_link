@@ -6,7 +6,7 @@ $tempColumns = array(
 		'exclude' => 0,
 		'label' => '',
 		'config' => array(
-			'type' => 'user',
+			'type' => 'none',
 			'renderType' => 'login_link_loginas',
 		)
 	),
