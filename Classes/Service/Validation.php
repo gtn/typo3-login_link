@@ -32,7 +32,8 @@ class Validation
 
         // FE
         // todo allow editors to login for fe_users
-        return $user->isAdmin();
+        // group 54 = 'Benutzer/User: Login As'
+        return $user->isAdmin() || $user->isMemberOfGroup(54);
     }
 
     protected function getBackendUser(): BackendUserAuthentication
